@@ -5,63 +5,66 @@
 <title>Be My Valentine 💕</title>
 
 <style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ffc0cb, #ff69b4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ffc0cb, #ff69b4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
 
-.card {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-}
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        position: relative;
+    }
 
-h1 {
-    color: #ff1493;
-    margin-bottom: 30px;
-}
+    h1 {
+        color: #ff1493;
+        margin-bottom: 30px;
+    }
 
-.buttons {
-    position: relative;
-    display: inline-block;
-}
+    button {
+        padding: 12px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-button {
-    padding: 12px 28px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    margin: 0 10px;
-    transition: 0.3s;
-}
+    #yes {
+        background: #ff1493;
+        color: white;
+        margin-right: 20px;
+    }
 
-#yes {
-    background: #ff1493;
-    color: white;
-}
+    #yes:hover {
+        background: #ff69b4;
+        transform: scale(1.1);
+    }
 
-#yes:hover {
-    background: #ff69b4;
-}
+    #no {
+        position: absolute;
+        background: #ddd;
+    }
 
-#no {
-    background: #ddd;
-    position: relative;
-}
+    .hearts {
+        position: absolute;
+        font-size: 24px;
+        animation: float 3s linear infinite;
+    }
 
-.hint {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #ff69b4;
-}
+    @keyframes float {
+        0% { transform: translateY(0); opacity:1;}
+        100% { transform: translateY(-200px); opacity:0;}
+    }
 </style>
 </head>
 
@@ -69,30 +72,42 @@ button {
 
 <div class="card">
     <h1>Josh will you be my Valentine? 💖</h1>
-
-    <div class="buttons">
-        <button id="yes">Yes 💕</button>
-        <button id="no">No 🙈</button>
-    </div>
+    <button id="yes">Yes 💕</button>
+    <button id="no">No 🙈</button>
+</div>
 
     <div class="hint">Choose wisely... there's only one correct answer 😉</div>
 </div>
-
+    
 <script>
 const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
 
-/* ✅ No 只小範圍移動 */
 noBtn.addEventListener("mouseover", () => {
-    const moveX = Math.random() * 80 - 40;  // -40px 到 +40px
-    const moveY = Math.random() * 40 - 20;  // -20px 到 +20px
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
 
-    noBtn.style.transform = translate(${moveX}px, ${moveY}px);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 });
 
-/* ✅ Yes 正常跳轉 */
-yesBtn.addEventListener("click", () => {
-    window.location.href = "yes.html";
+document.getElementById("yes").addEventListener("click", () => {
+    document.body.innerHTML = `
+        <div style="text-align:center; color:white;">
+            <h1>YAY!!! 💖💖💖</h1>
+            <h2>You made my day! 🥰</h2>
+        </div>
+    `;
+
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "hearts";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = window.innerHeight + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 3000);
+    }, 300);
 });
 </script>
 
